@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form  id ="form_1" action="success.html" method="get">
+    用户名：<input type="text" id="username"><span id="username_Msg"></span><br/>
+    密码：<input type="text" id="password"><span id="password_Msg"></span><br/>
+    确认密码：<input type="text" id="password_1"><span id="password_1_Msg"></span><br/>
+    邮箱：<input type="text" id="email"><span id="email_Msg"></span><br/>
+    <input type = "button" id="btn_submit" value="提交">
+    <input type = "reset" id="btn_reset" value="重置">
+
+
+</form>
+
+<script type="text/javascript">
+
+    //页面元素全部加载完毕之后执行本函数
+    window.onload = function () {
+        var username = document.getElementById('username');
+        var password = document.getElementById('password');
+        var password_1 = document.getElementById('password_1');
+        var email = document.getElementById('email');
+        var submit = document.getElementById('btn_submit');
+
+        var username_Msg = document.getElementById('username_Msg');
+        var password_Msg = document.getElementById('password_Msg');
+        var password_1_Msg = document.getElementById('password_1_Msg');
+        var email_Msg = document.getElementById('email_Msg');
+
+
+        username.onfocus = function () {
+            var msg = username.value;
+            username.value = msg.trim();
+
+        };
+
+        username.onblur = function () {
+            username.value = username.value.trim();
+            var msg = username.value;
+
+            //1.验证用户名
+            var reg_username = /^[a-zA-Z0-9_-]{4,16}$/;
+
+            if (reg_username.test(msg)) {
+                username_Msg.innerText = "";
+            } else {
+                username_Msg.innerText = "用户名不符合";
+            }
+        };
+
+        password.onblur = function () {
+            var msg = password.value;
+
+            var reg_password = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,16}$/;
+
+            if (msg == "") {
+                password_Msg.innerText = "请输入密码";
+            } else if (reg_password.test(msg)) {
+                password_Msg.innerText = "";
+
+            } else {
+                password_Msg.innerText = "密码不符合要求";
+            }
+        }
+
+        password_1.onblur = function () {
+            var pass1 = password.value;
+            var pass2 = password_1.value;
+
+            if (password.value == "") {
+                password_1_Msg.innerText = "";
+            } else if (password_1.value == "") {
+                password_1_Msg.innerText = "请输入确认密码";
+            } else if (password_1.value != password.value) {
+                password_1_Msg.innerText = "请检查确认密码是否正确";
+            } else {
+                password_1_Msg.innerText = "";
+            }
+        }
+
+        email.onblur = function () {
+            email.value = email.value.trim();
+            var reg_email = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
+            if (email.value == "") {
+                email_Msg.innerText = "请输入邮箱";
+            }
+            else if(reg_email.test(email.value))
+            {
+                email_Msg.innerText = "";
+            }
+            else
+            {
+                email_Msg.innerText = "邮箱格式不符"
+            }
+        }
+
+        submit.onclick = function () {
+            alert(111);
+
+            username.focus();
+            username.blur();
+            password.focus();
+            password.blur();
+            password_1.focus();
+            password_1.blur();
+            email.focus();
+            email.blur();
+
+            if(username_Msg.innerText =="" && password_Msg.innerText =="" && password_1_Msg.innerText =="" && email_Msg.innerText =="")
+            {
+                window.document.getElementById("form_1").submit();
+            }
+            else
+            {
+                alert("false");
+            }
+        }
+
+
+    }
+</script>
+
+</body>
+</html>
