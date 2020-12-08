@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/06考试/06考试.iml" filepath="$PROJECT_DIR$/06考试/06考试.iml" />
       <module fileurl="file://$PROJECT_DIR$/IDEA_PROJECT.iml" filepath="$PROJECT_DIR$/IDEA_PROJECT.iml" />
       <module fileurl="file://$PROJECT_DIR$/leetcode/leetcode.iml" filepath="$PROJECT_DIR$/leetcode/leetcode.iml" />
     </modules>
