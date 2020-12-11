@@ -1,5 +1,8 @@
 package middle;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  * @ProjectName: IDEA_PROJECT
  * @Package: middle
@@ -28,9 +31,88 @@ package middle;
 
 */
 public class dota2_senate_slotion {
-    public String predictPartyVictory(String senate) {
 
-        return "Radiant";
+    public static String predictPartyVictory(String senate) {
+
+        StringBuffer stringBuffer = new StringBuffer(senate);
+
+        //三次循环就可以解决
+        for (int j = 0; j < 3; j++) {
+
+
+            //要注意，每个玩家最聪明，就代表：
+            //一定是先把没有发言的干掉
+            //再考虑前面的
+            //这才是最聪明的玩家，默认每个玩家都是最聪明的。
+            //所以找到消灭目标，一定是从自己位置往后找，如果没有，再考虑前面的
+            for (int i = 0; i < stringBuffer.length(); i++) {
+                System.out.println("i:"+i);
+                if (stringBuffer.charAt(i) == 'R') {
+
+                    int m = getChar(stringBuffer.toString(),i,'D');
+
+                    if(m == -1)
+                    {
+                        m = stringBuffer.indexOf("D");
+                    }
+
+                    System.out.println("m:"+m);
+                    if (m != -1) {
+                        stringBuffer.replace(m,m+1,"X");
+                    } else {
+                        System.out.println("111");
+                        return "Radiant";
+                    }
+                } else if (stringBuffer.charAt(i) == 'D') {
+
+                    int m = getChar(stringBuffer.toString(),i,'R');
+
+                    if(m == -1)
+                    {
+                        m = stringBuffer.indexOf("R");
+                    }
+
+                    System.out.println("m:"+m);
+                    if (m != -1) {
+                        stringBuffer.replace(m,m+1,"X");
+                    } else {
+                        return "Dire";
+                    }
+                }
+                System.out.println("i:"+i);
+                System.out.println("字符串"+stringBuffer.toString());
+            }
+            stringBuffer = new StringBuffer(stringBuffer.toString().replace("X","").trim());
+            System.out.println(stringBuffer.toString());
+        }
+        return "Dire";
+    }
+
+    public static int getChar(String str,int startorend,Character target)
+    {
+            for (int i = startorend+1; i < str.length(); i++) {
+                if(str.charAt(i) == target)
+                    return i;
+            }
+        return -1;
+    }
+
+
+
+    public static void main(String[] args) {
+        String str = "RRDDRDRDRDRDRDRDRDRDRDRDDDRDRDRDRDRDRDRDDDRDRDRDRDRDRDRDRDRDRDRRRRDRDDDDRDRDRDRDD";
+
+        StringBuffer stringBuffer = new StringBuffer(str);
+
+        System.out.println(stringBuffer.indexOf("X"));
+
+        System.out.println(predictPartyVictory(str));
+
+
+
+
+
 
     }
+
 }
