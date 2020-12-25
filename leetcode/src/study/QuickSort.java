@@ -81,4 +81,103 @@ public class QuickSort {
             System.out.println(arr[i]);
         }
     }
+
+
+    /**
+     * 快排从大到小
+     */
+    private static Integer[] quickSortBig2Small(Integer[] arr, int low, int high) {
+
+        // 如果开始点和结束点没有重叠的时候，也就是指针没有执行到结尾
+        if (low < high) {
+
+            // 重新获取中间点
+            int mid = getIndexFromBig2Small(arr, low, high);
+            quickSortBig2Small(arr, low, mid - 1);
+            quickSortBig2Small(arr, mid + 1, high);
+        }
+        return arr;
+    }
+
+    /**
+     * 快排从小到大
+     */
+    private static Integer[] quickSortSmall2Big(Integer[] arr, int low, int high) {
+
+        // 如果开始点和结束点没有重叠的时候，也就是指针没有执行到结尾
+        if (low < high) {
+
+            // 重新获取中间点
+            int mid = getIndexFromSmall2Big(arr, low, high);
+            quickSortSmall2Big(arr, low, mid - 1);
+            quickSortSmall2Big(arr, mid + 1, high);
+        }
+        return arr;
+    }
+
+    /**
+     * 交换数组元素
+     */
+    private static void swap(Integer[] arr, int low, int high) {
+
+        int temp = arr[low];
+        arr[low] = arr[high];
+        arr[high] = temp;
+    }
+
+    /**
+     * 获取中间值（从大到小）
+     */
+    private static int getIndexFromBig2Small(Integer[] arr, int low, int high) {
+
+        // 中值作为中点
+        int index = (low + high) / 2;
+
+        int midNum = arr[index];
+
+        // 无论取的值是哪一个，都应该将其放在最后面
+        swap(arr, index, high);
+
+        while (low < high) {
+
+            // 左侧值大于或者等于右侧值时候，只需要移动指针即可，不需要交换（ 注意 =，没有会陷入死循环）
+            while (low < high && arr[low] >= midNum)
+                low++;
+            swap(arr, low, high);
+
+            // 右侧值小于或者等于右侧值时候，只需要移动指针即可，不需要交换
+            while (low < high && arr[high] <= midNum)
+                high--;
+            swap(arr, low, high);
+        }
+        return high;
+    }
+
+    /**
+     * 获取中间值（从小到大）
+     */
+    private static int getIndexFromSmall2Big(Integer[] arr, int low, int high) {
+
+        // 中值作为中点
+        int index = (low + high) / 2;
+
+        int midNum = arr[index];
+
+        // 无论取的值是哪一个，都应该将其放在最后面
+        swap(arr, index, high);
+
+        while (low < high) {
+
+            // 左侧值小于或者等于右侧值时候，只需要移动指针即可，不需要交换（ 注意 =，没有会陷入死循环）
+            while (low < high && arr[low] <= midNum)
+                low++;
+            swap(arr, low, high);
+
+            // 右侧值小大于于或者等于右侧值时候，只需要移动指针即可，不需要交换
+            while (low < high && arr[high] >= midNum)
+                high--;
+            swap(arr, low, high);
+        }
+        return high;
+    }
 }
