@@ -11,7 +11,7 @@ package middle;
  */
 public class HHHHHH {
     public static void main(String[] args) {
-        String m = "[[0,0,1,1],[1,0,1,0],[1,1,0,0]]";
+        String m = "[[3,7],[1,4],[2,8],[1,6],[7,9],[6,10],[1,7],[2,3],[8,9],[5,9]]";
         StringBuffer str = new StringBuffer(m);
         for (int i = 0; i < str.length(); i++) {
             if(str.charAt(i) == '[')
