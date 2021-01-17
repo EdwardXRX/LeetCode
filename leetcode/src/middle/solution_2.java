@@ -1,5 +1,8 @@
 package middle;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @ProjectName: IDEA_PROJECT
  * @Package: middle
@@ -44,5 +47,89 @@ package middle;
 
 */
 public class solution_2 {
+    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+        if (l1 == null && l2 == null) {
+            return null;
+        } else if (l1 == null) {
+            return l2;
+        } else if (l2 == null) {
+            return l1;
+        }
+
+
+        ListNode runNode = null;
+        ListNode head = runNode;
+        boolean flag = false;
+        while (l1 != null || l2 != null) {
+            ListNode node = new ListNode();
+
+            //两个结点都有值
+            if (l1 != null && l2 != null) {
+                if ((l1.val + l2.val) >= 10) {
+                    if (flag == true) {
+                        node.val = l1.val + l2.val + 1 - 10;
+                    } else {
+                        node.val = l1.val + l2.val - 10;
+                    }
+                    flag = true;
+                } else {
+                    if (flag == true) {
+                        {
+                            if (l1.val + l2.val + 1 == 10) {
+                                node.val = 0;
+                                flag = true;
+                            } else {
+                                node.val = l1.val + l2.val;
+                                flag = false;
+                            }
+                        }
+                    } else {
+                        node.val = l1.val + l2.val;
+                        flag = false;
+                    }
+                }
+
+                l1 = l1.next;
+                l2 = l2.next;
+            } else if (l1 == null && l2 != null) {
+                if (flag == true) {
+                    if (l2.val == 9) {
+                        flag = true;
+                        node.val = 0;
+                    } else {
+                        flag = false;
+                        node.val = l2.val + 1;
+                    }
+                } else {
+                    node.val = l2.val;
+                    flag = false;
+                }
+            } else if (l1 != null && l2 == null) {
+                if (flag == true) {
+                    if (l1.val == 9) {
+                        flag = true;
+                        node.val = 0;
+                    } else {
+                        flag = false;
+                        node.val = l1.val + 1;
+                    }
+                } else {
+                    node.val = l1.val;
+                    flag = false;
+                }
+            }
+
+            runNode.next = node;
+            runNode = runNode.next;
+        }
+
+        if (flag == true) {
+            ListNode node = new ListNode(1);
+            runNode.next = node;
+            node.next = null;
+        }
+        return head.next;
+
+    }
 
 }

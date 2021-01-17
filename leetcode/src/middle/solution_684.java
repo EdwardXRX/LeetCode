@@ -92,7 +92,7 @@ public class solution_684 {
             }
 
             for (int m = 0; m < array.length; m++) {
-                System.out.print("--"+m+"--");
+                System.out.print("--" + m + "--");
             }
             System.out.println("");
             for (int x = 0; x < array.length; x++) {
@@ -116,13 +116,105 @@ public class solution_684 {
 
     public static void main(String[] args) {
         int[][] array = {{3, 7}, {1, 4}, {2, 8}, {1, 6}, {7, 9}, {6, 10}, {1, 7}, {2, 3}, {8, 9}, {5, 9}};
-        int[] result = findRedundantConnection(array);
+        int[] result = findRedundantConnection1(array);
 
         for (int i = 0; i < result.length; i++) {
             System.out.println(result[i]);
         }
     }
+
+    public static int[] findRedundantConnection1(int[][] edges) {
+        if (edges.length == 0 || edges == null)
+            return new int[0];
+        int max = -1;
+        for (int i = 0; i < edges.length; i++) {
+            if (edges[i][0] >= max)
+                max = edges[i][0];
+            if (edges[i][1] >= max)
+                max = edges[i][1];
+        }
+
+        int[] roots = new int[max + 1];
+        int[] ranks = new int[max + 1];
+        for (int i = 0; i < roots.length; i++) {
+            roots[i] = i;
+            ranks[i] = 1;
+        }
+
+        List<Integer> list = new ArrayList<>();
+        for (int i = 0; i < edges.length; i++) {
+            if (find(roots[edges[i][0]], roots) != find(roots[edges[i][1]], roots)) {
+                union(edges[i][0], edges[i][1], roots,ranks);
+            } else if (find(roots[edges[i][0]], roots) == find(roots[edges[i][1]], roots)) {
+                if (list.contains(edges[i][0]) == false)
+                    list.add(edges[i][0]);
+
+                if (list.contains(edges[i][1]) == false)
+                    list.add(edges[i][1]);
+            }
+
+        }
+        int[] result = new int[list.size()];
+
+        for (int i = 0; i < list.size(); i++) {
+            result[i] = list.get(i);
+        }
+        return result;
+
+
+    }
+
+    public static int find(int i, int[] roots) {
+        if (i == roots[i]) {
+            return i;
+        }
+        return roots[i] = find(roots[i], roots);
+    }
+
+    public static void union(int i, int j, int[] roots,int[] ranks) {
+        int x = find(i, roots);
+        int y = find(j, roots);
+
+        if (ranks[x] <= ranks[y])
+            roots[x] = y;
+        else
+            roots[y] = x;
+        if (ranks[x] == ranks[y] && x != y)
+            ranks[y]++;
+    }
+
 }
+
+
+class UF {
+    int[] roots;
+    int size; // 集合数量
+
+    public UF(int n) {
+        roots = new int[n];
+        for (int i = 0; i < n; i++) {
+            roots[i] = i;
+        }
+        size = n;
+    }
+
+    public int find(int i) {
+        if (i == roots[i]) {
+            return i;
+        }
+        return roots[i] = find(roots[i]);
+    }
+
+    public void union(int p, int q) {
+        int pRoot = find(p);
+        int qRoot = find(q);
+        if (pRoot != qRoot) {
+            roots[pRoot] = qRoot;
+            size--;
+        }
+    }
+}
+
 
 
 
